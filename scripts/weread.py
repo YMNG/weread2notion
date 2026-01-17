@@ -222,9 +222,12 @@ def get_sort():
             "direction": "descending",
         }
     ]
-    response = client.databases.query(
-        database_id=database_id, filter=filter, sorts=sorts, page_size=1
-    )
+    response = client.databases.query(**{
+    "database_id": database_id,
+    "filter": filter_condition,  # 你的 filter 变量
+    "sorts": [{"property": "Sort", "direction": "descending"}],
+    "page_size": 1
+    })
     if len(response.get("results")) == 1:
         return response.get("results")[0].get("properties").get("Sort").get("number")
     return 0
